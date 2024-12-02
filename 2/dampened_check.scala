@@ -8,7 +8,7 @@ import scala.collection.mutable.TreeSet
 
 @main
 def main2(inputFileName: String): Unit =
-  val path: os.Path = os.pwd / inputFileName
+  val path: os.Path = os.pwd / os.SubPath(inputFileName)
   val lines: Seq[String] = os.read.lines(path)
 
   val buff = new ListBuffer[List[Int]]()

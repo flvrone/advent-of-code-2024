@@ -5,7 +5,7 @@ import scala.collection.mutable.ListBuffer
 
 @main
 def main1(inputFileName: String): Unit =
-  val path: os.Path = os.pwd / inputFileName
+  val path: os.Path = os.pwd / os.SubPath(inputFileName)
   val lines: Seq[String] = os.read.lines(path)
 
   val buff1 = new ListBuffer[Int]()
