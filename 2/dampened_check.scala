@@ -22,14 +22,9 @@ enum LevelsTrend:
   case Unknown, Increasing, Decreasing, Broken
 
 def dampenedSafeReports(reports: List[List[Int]]): Int =
-  reports.count(isSafeReport)
+  reports.count(isDampenedSafeReport)
 
-def isSafeReport(report: List[Int]): Boolean =
-  dampenedCheckReportTrend(report) match
-    case LevelsTrend.Increasing | LevelsTrend.Decreasing => true
-    case _ => false
-
-def dampenedCheckReportTrend(report: List[Int]): LevelsTrend =
+def isDampenedSafeReport(report: List[Int]): Boolean =
   val faultyIndices = TreeSet[Int]()
   var trend = LevelsTrend.Unknown
 
@@ -58,25 +53,14 @@ def dampenedCheckReportTrend(report: List[Int]): LevelsTrend =
                 else LevelsTrend.Decreasing
       case LevelsTrend.Broken =>
 
-  if faultyIndices.isEmpty then trend
-  else
-    var resultingTrend = LevelsTrend.Broken
-    faultyIndices.find(idx =>
-      val result = checkReportTrend(deleteAt(report, idx))
-
-      result match
-        case LevelsTrend.Increasing | LevelsTrend.Decreasing =>
-          resultingTrend = result
-          true
-        case _ => false
-    )
-    resultingTrend
+  faultyIndices.isEmpty ||
+    faultyIndices.exists(idx => isSafeReport(deleteAt(report, idx)))
 
 def deleteAt[T](list: List[T], index: Int): List[T] =
   val (first, second) = list.splitAt(index)
   first ++ second.tail
 
-def checkReportTrend(report: List[Int]): LevelsTrend =
+def isSafeReport(report: List[Int]): Boolean =
   var trend = LevelsTrend.Unknown
 
   for
@@ -98,4 +82,6 @@ def checkReportTrend(report: List[Int]): LevelsTrend =
                 else LevelsTrend.Decreasing
       case LevelsTrend.Broken =>
 
-  trend
+  trend match
+    case LevelsTrend.Increasing | LevelsTrend.Decreasing => true
+    case _ => false
