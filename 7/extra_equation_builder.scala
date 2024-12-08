@@ -22,20 +22,23 @@ def main2(inputFileName: String): Unit =
 enum Operator:
   case Add, Multiply, Concatenate
 
-def checkAndSumEquationResults(equations: List[Tuple2[Long, List[Int]]]): Long =
+def checkAndSumEquationResults(equations: List[(Long, List[Int])]): Long =
   equations
     .filter((result, numbers) => isEquationPossible(result, numbers))
     .map((result, numbers) => result)
     .reduceLeft(_ + _)
 
 def isEquationPossible(result: Long, numbers: List[Int]): Boolean =
-  val operatorPermutations = repetitivePermutations(numbers.length - 1, Operator.values.toList)
+  val operatorPermutations =
+    repetitivePermutations(numbers.length - 1, Operator.values.toList)
   operatorPermutations.exists(calculate(numbers, _) == result)
 
 def calculate(numbers: List[Int], operators: List[Operator]): Long =
   recursiveCalculate(numbers.head, numbers.tail, operators)
 
-def recursiveCalculate(currentValue: Long, numbers: List[Int], operators: List[Operator]): Long =
+def recursiveCalculate(
+    currentValue: Long, numbers: List[Int], operators: List[Operator]
+  ): Long =
   if numbers.isEmpty then currentValue
   else
     val newValue = applyOperator(operators.head, currentValue, numbers.head)
@@ -55,7 +58,6 @@ def repetitivePermutations[T](length: Int, elements: List[T]): List[List[T]] =
 def prependEach[T](
     elements: List[T], containerList: List[T] = List(), iterations: Int = 1
   ): List[List[T]] =
-
   val newLists = for
     elem <- elements
   yield
