@@ -1,4 +1,4 @@
-//> using scala 3.6.1
+//> using scala 3.6.2
 //> using toolkit 0.6.0
 
 package advent24.extraequationbuilder
