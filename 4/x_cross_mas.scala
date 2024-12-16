@@ -59,7 +59,7 @@ def crossMatchesInCharMatrix(word: String, matrix: CharMatrix2D): Int =
 
   matchCount
 
-def modifyCoordsInDirection(row: Int, col: Int, dir: Direction): Tuple2[Int, Int] =
+def modifyCoordsInDirection(row: Int, col: Int, dir: Direction): (Int, Int) =
   dir match
     case Direction.Up => (row - 1, col)
     case Direction.UpRight => (row - 1, col + 1)
