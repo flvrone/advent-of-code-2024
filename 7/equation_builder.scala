@@ -3,6 +3,8 @@
 
 package advent24.equationbuilder
 
+import scala.annotation.tailrec
+
 @main
 def main1(inputFileName: String): Unit =
   val path: os.Path = os.pwd / os.SubPath(inputFileName)
@@ -36,6 +38,7 @@ def isEquationPossible(result: Long, numbers: List[Int]): Boolean =
 def calculate(numbers: List[Int], operators: List[Operator]): Long =
   recursiveCalculate(numbers.head, numbers.tail, operators)
 
+@tailrec
 def recursiveCalculate(
     currentValue: Long, numbers: List[Int], operators: List[Operator]
   ): Long =

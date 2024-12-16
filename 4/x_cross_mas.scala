@@ -3,6 +3,8 @@
 
 package advent24.xcrossmas
 
+import scala.annotation.tailrec
+
 @main
 def main2(inputFileName: String): Unit =
   val path: os.Path = os.pwd / os.SubPath(inputFileName)
@@ -68,6 +70,7 @@ def modifyCoordsInDirection(row: Int, col: Int, dir: Direction): Tuple2[Int, Int
     case Direction.Left => (row, col - 1)
     case Direction.UpLeft => (row - 1, col - 1)
 
+@tailrec
 def matchCharMatrixInDirectionFromPosition(word: String, matrix: CharMatrix2D, dir: Direction, row: Int, col: Int): Boolean =
   if word.isEmpty() then true
   else if matrix.charAtIs(row, col, word.head) then

@@ -3,6 +3,8 @@
 
 package advent24.diskfragmenter
 
+import scala.annotation.tailrec
+
 @main
 def main1(inputFileName: String): Unit =
   val path: os.Path = os.pwd / os.SubPath(inputFileName)
@@ -36,6 +38,7 @@ def fragmentMap(map: Vector[Int]): Vector[Int] =
 
   recursiveFragmentMap(mutableMap, emptyIndex, fileIndex).toVector
 
+@tailrec
 def recursiveFragmentMap(
     map: Array[Int], emptyIndex: Int, fileIndex: Int
   ): Array[Int] =
@@ -48,11 +51,13 @@ def recursiveFragmentMap(
     val newFileIndex = findPrevFileIndex(map, fileIndex - 1).getOrElse(0)
     recursiveFragmentMap(map, newEmptyIndex, newFileIndex)
 
+@tailrec
 def findNextEmptyIndex(map: Array[Int], startIndex: Int = 0): Option[Int] =
   if startIndex >= map.length then None
   else if map.apply(startIndex) < 0 then Some(startIndex)
   else findNextEmptyIndex(map, startIndex + 1)
 
+@tailrec
 def findPrevFileIndex(map: Array[Int], startIndex: Int): Option[Int] =
   if startIndex < 0 then None
   else if map.apply(startIndex) >= 0 then Some(startIndex)

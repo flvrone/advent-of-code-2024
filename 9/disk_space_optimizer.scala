@@ -3,6 +3,8 @@
 
 package advent24.diskspaceoptimizer
 
+import scala.annotation.tailrec
+
 @main
 def main2(inputFileName: String): Unit =
   val path: os.Path = os.pwd / os.SubPath(inputFileName)
@@ -36,6 +38,7 @@ def optimizeMap(map: Vector[Int]): Vector[Int] =
     case Some(range) => recursiveOptimizeMap(mutableMap, range).toVector
     case None => map
 
+@tailrec
 def recursiveOptimizeMap(map: Array[Int], fileRange: Range): Array[Int] =
   if fileRange.start <= 0 then map
   else
@@ -57,6 +60,7 @@ def moveFileRangeTo(map: Array[Int], fileRange: Range, destination: Range): Unit
     map(toIndex) = map(fromIndex)
     map(fromIndex) = -1
 
+@tailrec
 def findPrevFileRange(map: Array[Int], currentIndex: Int): Option[Range] =
   if currentIndex < 0 then None
   else
@@ -65,6 +69,7 @@ def findPrevFileRange(map: Array[Int], currentIndex: Int): Option[Range] =
       Some(findFileRangeFromEnd(map, currentIndex - 1, currentIndex, fileId))
     else findPrevFileRange(map, currentIndex - 1)
 
+@tailrec
 def findFileRangeFromEnd(
     map: Array[Int], currentIndex: Int, foundRangeEnd: Int, fileId: Int
   ): Range =
@@ -74,7 +79,10 @@ def findFileRangeFromEnd(
       (currentIndex + 1) to foundRangeEnd
     else findFileRangeFromEnd(map, currentIndex - 1, foundRangeEnd, fileId)
 
-def findFreeSpaceForRange(map: Array[Int], range: Range, currentIndex: Int = 0): Option[Range] =
+@tailrec
+def findFreeSpaceForRange(
+    map: Array[Int], range: Range, currentIndex: Int = 0
+  ): Option[Range] =
   if currentIndex >= range.start then None
   else if map.apply(currentIndex) >= 0 then
     findFreeSpaceForRange(map, range, currentIndex + 1)
@@ -86,7 +94,10 @@ def findFreeSpaceForRange(map: Array[Int], range: Range, currentIndex: Int = 0):
     if freeSpaceRange.length >= requiredLength then Some(freeSpaceRange)
     else findFreeSpaceForRange(map, range, endIndex + 1)
 
-def findFreeSpaceRangeEnd(map: Array[Int], currentIndex: Int, rangeStartIndex: Int, maxLength: Int): Int =
+@tailrec
+def findFreeSpaceRangeEnd(
+    map: Array[Int], currentIndex: Int, rangeStartIndex: Int, maxLength: Int
+  ): Int =
   if currentIndex >= map.length then map.length - 1
   else if map.apply(currentIndex) >= 0 then currentIndex - 1
   else if (rangeStartIndex to currentIndex).length >= maxLength then currentIndex

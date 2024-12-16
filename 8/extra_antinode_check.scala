@@ -3,6 +3,8 @@
 
 package advent24.extraantinodecheck
 
+import scala.annotation.tailrec
+
 @main
 def main2(inputFileName: String): Unit =
   val path: os.Path = os.pwd / os.SubPath(inputFileName)
@@ -54,6 +56,7 @@ def countAntinodesOnMap(map: Map[Char, List[Coord]], matrix: Char2DMatrix): Int 
 def findAntinodes(positions: List[Coord], matrix: Char2DMatrix): List[Coord] =
   recursiveFindAntinodes(positions.head, positions.tail, matrix)
 
+@tailrec
 def recursiveFindAntinodes(
     currentPosition: Coord, positions: List[Coord], matrix: Char2DMatrix,
     foundAntinodes: List[Coord] = List()
@@ -71,6 +74,7 @@ def calculateAntinodesFor(
   ): List[Coord] =
   recursiveCalculateAntinodesFor(pos1, pos2, matrix)
 
+@tailrec
 def recursiveCalculateAntinodesFor(
     pos1: Coord, pos2: Coord, matrix: Char2DMatrix, muliplier: Int = -1,
     foundAntinodes: List[Coord] = List()
