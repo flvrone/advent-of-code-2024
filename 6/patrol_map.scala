@@ -83,13 +83,13 @@ def charToDirection(char: Char): Option[Direction] =
 
 @tailrec
 def traverseMapFromPosition(map: Visitable2DMap, position: Position): Unit =
+  map.visit(position.coord)
   val nextCoord = modifyCoordInDirection(position.coord, position.dir)
   map.tileAt(nextCoord) match
     case Some(MapTile.Obstacle) =>
       val newPosition = position.copy(dir = turnRightRelativeTo(position.dir))
       traverseMapFromPosition(map, newPosition)
     case Some(MapTile.Path) | Some(MapTile.VisitedPath) =>
-      map.visit(nextCoord)
       val newPosition = position.copy(coord = nextCoord)
       traverseMapFromPosition(map, newPosition)
     case None =>
