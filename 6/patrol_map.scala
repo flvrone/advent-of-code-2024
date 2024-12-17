@@ -67,7 +67,7 @@ def buildMapWithPosition(lines: Seq[String]): (Visitable2DMap, Position) =
               case None => MapTile.Path
               case Some(foundDir) =>
                 position = Position(Coord(row, col), foundDir)
-                MapTile.VisitedPath
+                MapTile.Path
     ).toArray
   ).toVector
 
