@@ -81,6 +81,7 @@ def charToDirection(char: Char): Option[Direction] =
     case '>' => Some(Direction.Right)
     case _ => None
 
+// This ends up with an infinite loop if the map is looped
 @tailrec
 def traverseMapFromPosition(map: Visitable2DMap, position: Position): Unit =
   map.visit(position.coord)
