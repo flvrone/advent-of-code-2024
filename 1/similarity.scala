@@ -16,9 +16,9 @@ def main2(inputFileName: String): Unit =
     buff1 += pair.apply(0).toInt
     buff2 += pair.apply(1).toInt
 
-  println(similarityScore(buff1.toVector, buff2.toVector))
+  println(similarityScore(buff1.toList, buff2.toList))
 
-def similarityScore(l1: Vector[Int], l2: Vector[Int]): Int =
+def similarityScore(l1: List[Int], l2: List[Int]): Int =
   var score = 0
 
   for num <- l1 do

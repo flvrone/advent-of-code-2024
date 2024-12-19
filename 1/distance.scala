@@ -16,15 +16,10 @@ def main1(inputFileName: String): Unit =
     buff1 += pair.apply(0).toInt
     buff2 += pair.apply(1).toInt
 
-  println(totalDistance(buff1.toVector, buff2.toVector))
+  println(totalDistance(buff1.toList, buff2.toList))
 
-def totalDistance(l1: Vector[Int], l2: Vector[Int]): Int =
+def totalDistance(l1: List[Int], l2: List[Int]): Int =
   val s1 = l1.sorted
   val s2 = l2.sorted
 
-  var total = 0
-
-  for i <- 0 until s1.length do
-    total += (s1.apply(i) - s2.apply(i)).abs
-
-  total
+  s1.zip(s2).map((a, b) => (a - b).abs).reduceRight(_ + _)
