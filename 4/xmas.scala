@@ -36,11 +36,11 @@ def matchesInCharMatrix(word: String, matrix: CharMatrix2D): Int =
   for
     (line, row) <- matrix.lines.zipWithIndex
     (char, col) <- line.zipWithIndex
+    if char == startChar
   do
-    if char == startChar then
-      matchCount += Direction.values.count(dir =>
-          matchCharMatrixInDirectionFromPosition(word, matrix, dir, row, col)
-        )
+    matchCount += Direction.values.count(dir =>
+        matchMatrixInDirectionFromPos(word, matrix, dir, row, col)
+      )
 
   matchCount
 
@@ -56,11 +56,12 @@ def modifyCoordsInDirection(row: Int, col: Int, dir: Direction): (Int, Int) =
     case Direction.UpLeft => (row - 1, col - 1)
 
 @tailrec
-def matchCharMatrixInDirectionFromPosition(word: String, matrix: CharMatrix2D, dir: Direction, row: Int, col: Int): Boolean =
+def matchMatrixInDirectionFromPos(
+    word: String, matrix: CharMatrix2D, dir: Direction, row: Int, col: Int
+  ): Boolean =
   if word.isEmpty() then true
   else if matrix.charAtIs(row, col, word.head) then
     val (nextRow, nextCol) = modifyCoordsInDirection(row, col, dir)
-    matchCharMatrixInDirectionFromPosition(word.tail, matrix, dir, nextRow, nextCol)
+    matchMatrixInDirectionFromPos(word.tail, matrix, dir, nextRow, nextCol)
   else
     false
-

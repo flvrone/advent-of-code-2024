@@ -39,23 +39,23 @@ def crossMatchesInCharMatrix(word: String, matrix: CharMatrix2D): Int =
   for
     (line, row) <- matrix.lines.zipWithIndex
     (char, col) <- line.zipWithIndex
+    if char == startChar
   do
-    if char == startChar then
-      if matchCharMatrixInDirectionFromPosition(word, matrix, Direction.DownRight, row, col) &&
-         matchCharMatrixInDirectionFromPosition(word, matrix, Direction.DownLeft, row, col + gap)
-      then matchCount += 1
+    if matchMatrixInDirectionFromPos(word, matrix, Direction.DownRight, row, col) &&
+        matchMatrixInDirectionFromPos(word, matrix, Direction.DownLeft, row, col + gap)
+    then matchCount += 1
 
-      if matchCharMatrixInDirectionFromPosition(word, matrix, Direction.UpRight, row, col) &&
-         matchCharMatrixInDirectionFromPosition(word, matrix, Direction.UpLeft, row, col + gap)
-      then matchCount += 1
+    if matchMatrixInDirectionFromPos(word, matrix, Direction.UpRight, row, col) &&
+        matchMatrixInDirectionFromPos(word, matrix, Direction.UpLeft, row, col + gap)
+    then matchCount += 1
 
-      if matchCharMatrixInDirectionFromPosition(word, matrix, Direction.DownRight, row, col) &&
-         matchCharMatrixInDirectionFromPosition(word, matrix, Direction.UpRight, row + gap, col)
-      then matchCount += 1
+    if matchMatrixInDirectionFromPos(word, matrix, Direction.DownRight, row, col) &&
+        matchMatrixInDirectionFromPos(word, matrix, Direction.UpRight, row + gap, col)
+    then matchCount += 1
 
-      if matchCharMatrixInDirectionFromPosition(word, matrix, Direction.DownLeft, row, col) &&
-         matchCharMatrixInDirectionFromPosition(word, matrix, Direction.UpLeft, row + gap, col)
-      then matchCount += 1
+    if matchMatrixInDirectionFromPos(word, matrix, Direction.DownLeft, row, col) &&
+        matchMatrixInDirectionFromPos(word, matrix, Direction.UpLeft, row + gap, col)
+    then matchCount += 1
 
   matchCount
 
@@ -71,10 +71,12 @@ def modifyCoordsInDirection(row: Int, col: Int, dir: Direction): (Int, Int) =
     case Direction.UpLeft => (row - 1, col - 1)
 
 @tailrec
-def matchCharMatrixInDirectionFromPosition(word: String, matrix: CharMatrix2D, dir: Direction, row: Int, col: Int): Boolean =
+def matchMatrixInDirectionFromPos(
+    word: String, matrix: CharMatrix2D, dir: Direction, row: Int, col: Int
+  ): Boolean =
   if word.isEmpty() then true
   else if matrix.charAtIs(row, col, word.head) then
     val (nextRow, nextCol) = modifyCoordsInDirection(row, col, dir)
-    matchCharMatrixInDirectionFromPosition(word.tail, matrix, dir, nextRow, nextCol)
+    matchMatrixInDirectionFromPos(word.tail, matrix, dir, nextRow, nextCol)
   else
     false
