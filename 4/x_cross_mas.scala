@@ -72,8 +72,8 @@ def modifyCoordsInDirection(row: Int, col: Int, dir: Direction): (Int, Int) =
 
 @tailrec
 def matchMatrixInDirectionFromPos(
-    word: String, matrix: CharMatrix2D, dir: Direction, row: Int, col: Int
-  ): Boolean =
+  word: String, matrix: CharMatrix2D, dir: Direction, row: Int, col: Int
+): Boolean =
   if word.isEmpty() then true
   else if matrix.charAtIs(row, col, word.head) then
     val (nextRow, nextCol) = modifyCoordsInDirection(row, col, dir)

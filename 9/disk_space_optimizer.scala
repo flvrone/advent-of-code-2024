@@ -71,8 +71,8 @@ def findPrevFileRange(map: Array[Int], currentIndex: Int): Option[Range] =
 
 @tailrec
 def findFileRangeFromEnd(
-    map: Array[Int], currentIndex: Int, foundRangeEnd: Int, fileId: Int
-  ): Range =
+  map: Array[Int], currentIndex: Int, foundRangeEnd: Int, fileId: Int
+): Range =
   if currentIndex < 0 then (0 to foundRangeEnd)
   else
     if map.apply(currentIndex) != fileId then
@@ -81,8 +81,8 @@ def findFileRangeFromEnd(
 
 @tailrec
 def findFreeSpaceForRange(
-    map: Array[Int], range: Range, currentIndex: Int = 0
-  ): Option[Range] =
+  map: Array[Int], range: Range, currentIndex: Int = 0
+): Option[Range] =
   if currentIndex >= range.start then None
   else if map.apply(currentIndex) >= 0 then
     findFreeSpaceForRange(map, range, currentIndex + 1)
@@ -96,8 +96,8 @@ def findFreeSpaceForRange(
 
 @tailrec
 def findFreeSpaceRangeEnd(
-    map: Array[Int], currentIndex: Int, rangeStartIndex: Int, maxLength: Int
-  ): Int =
+  map: Array[Int], currentIndex: Int, rangeStartIndex: Int, maxLength: Int
+): Int =
   if currentIndex >= map.length then map.length - 1
   else if map.apply(currentIndex) >= 0 then currentIndex - 1
   else if (rangeStartIndex to currentIndex).length >= maxLength then currentIndex

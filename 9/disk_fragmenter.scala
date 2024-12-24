@@ -40,8 +40,8 @@ def fragmentMap(map: Vector[Int]): Vector[Int] =
 
 @tailrec
 def recursiveFragmentMap(
-    map: Array[Int], emptyIndex: Int, fileIndex: Int
-  ): Array[Int] =
+  map: Array[Int], emptyIndex: Int, fileIndex: Int
+): Array[Int] =
   if emptyIndex >= fileIndex then map
   else
     map(emptyIndex) = map(fileIndex)

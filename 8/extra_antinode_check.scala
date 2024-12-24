@@ -58,9 +58,9 @@ def findAntinodes(positions: List[Coord], matrix: Char2DMatrix): List[Coord] =
 
 @tailrec
 def recursiveFindAntinodes(
-    currentPosition: Coord, positions: List[Coord], matrix: Char2DMatrix,
-    foundAntinodes: List[Coord] = List()
-  ): List[Coord] =
+  currentPosition: Coord, positions: List[Coord], matrix: Char2DMatrix,
+  foundAntinodes: List[Coord] = List()
+): List[Coord] =
   if positions.isEmpty then foundAntinodes
   else
     val newAntinodes =
@@ -70,15 +70,15 @@ def recursiveFindAntinodes(
     )
 
 def calculateAntinodesFor(
-    pos1: Coord, pos2: Coord, matrix: Char2DMatrix
-  ): List[Coord] =
+  pos1: Coord, pos2: Coord, matrix: Char2DMatrix
+): List[Coord] =
   recursiveCalculateAntinodesFor(pos1, pos2, matrix)
 
 @tailrec
 def recursiveCalculateAntinodesFor(
-    pos1: Coord, pos2: Coord, matrix: Char2DMatrix, muliplier: Int = -1,
-    foundAntinodes: List[Coord] = List()
-  ): List[Coord] =
+  pos1: Coord, pos2: Coord, matrix: Char2DMatrix, muliplier: Int = -1,
+  foundAntinodes: List[Coord] = List()
+): List[Coord] =
   val coord1 = Coord(
     muliplier * (pos1.row - pos2.row) + pos1.row,
     muliplier * (pos1.col - pos2.col) + pos1.col

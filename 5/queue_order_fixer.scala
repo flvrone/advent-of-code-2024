@@ -17,11 +17,11 @@ def main2(inputFileName: String): Unit =
   val isOrderCorrectPredicate = comparisonBuilder(rulesMap)
 
   println(
-      queues.filter(isQueueIncorrect(_, rulesMap))
-        .map(_.sortWith(isOrderCorrectPredicate))
-        .map(middleElement(_))
-        .reduce(_ + _)
-    )
+    queues.filter(isQueueIncorrect(_, rulesMap))
+      .map(_.sortWith(isOrderCorrectPredicate))
+      .map(middleElement(_))
+      .reduce(_ + _)
+  )
 
 def buildRulesMap(rules: Seq[String]): Map[Int, Set[Int]] =
   rules.map(_.split('|'))
@@ -33,11 +33,11 @@ def parseQueues(queues: Seq[String]): List[Vector[Int]] =
 
 def isQueueIncorrect[T](queue: Vector[T], rulesMap: Map[T, Set[T]]): Boolean =
   queue.zipWithIndex.exists((elem, idx) =>
-      if rulesMap.contains(elem) then
-        val elemsGoingAfter = rulesMap.apply(elem)
-        queue.take(idx).exists(elemsGoingAfter.apply(_))
-      else false
-    )
+    if rulesMap.contains(elem) then
+      val elemsGoingAfter = rulesMap.apply(elem)
+      queue.take(idx).exists(elemsGoingAfter.apply(_))
+    else false
+  )
 
 def isQueueCorrect[T](queue: Vector[T], rulesMap: Map[T, Set[T]]): Boolean =
   !isQueueIncorrect(queue, rulesMap)

@@ -21,15 +21,14 @@ def parseAndSum(command: String): Int =
   sumOfMults(parsePairs(filterCommand(command)))
 
 def parsePairs(command: String): List[(Int, Int)] =
-  MulPattern.findAllMatchIn(command).toList.map(
-    (patternMatch) =>
-      (patternMatch.group(1).toInt, patternMatch.group(2).toInt)
-    )
+  MulPattern.findAllMatchIn(command).toList.map(ptrnMatch =>
+    (ptrnMatch.group(1).toInt, ptrnMatch.group(2).toInt)
+  )
 
 def sumOfMults(pairs: List[(Int, Int)]): Int =
   pairs.map((a, b) => a * b).reduceLeft(_ + _)
 
 def filterCommand(command: String): String =
-  command .split(DoPattern)
-          .map(_.split(DontPattern, 2).apply(0))
-          .mkString
+  command.split(DoPattern)
+    .map(_.split(DontPattern, 2).apply(0))
+    .mkString
