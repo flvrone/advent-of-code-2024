@@ -3,19 +3,15 @@
 
 package advent24.safetycheck
 
-import scala.collection.mutable.ListBuffer
-
 @main
 def main1(inputFileName: String): Unit =
   val path: os.Path = os.pwd / os.SubPath(inputFileName)
   val lines: Seq[String] = os.read.lines(path)
 
-  val buff = new ListBuffer[List[Int]]()
+  val reports = for line <- lines yield
+    line.split("\\s+").map(_.toInt).toList
 
-  for line <- lines do
-    buff += line.split("\\s+").map(_.toInt).toList
-
-  println(countSafeReports(buff.toList))
+  println(countSafeReports(reports.toList))
 
 enum LevelsTrend:
   case Unknown, Increasing, Decreasing, Broken

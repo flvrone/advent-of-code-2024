@@ -3,7 +3,6 @@
 
 package advent24.dampenedcheck
 
-import scala.collection.mutable.ListBuffer
 import scala.collection.mutable.TreeSet
 
 @main
@@ -11,12 +10,10 @@ def main2(inputFileName: String): Unit =
   val path: os.Path = os.pwd / os.SubPath(inputFileName)
   val lines: Seq[String] = os.read.lines(path)
 
-  val buff = new ListBuffer[List[Int]]()
+  val reports = for line <- lines yield
+    line.split("\\s+").map(_.toInt).toList
 
-  for line <- lines do
-    buff += line.split("\\s+").map(_.toInt).toList
-
-  println(dampenedSafeReports(buff.toList))
+  println(dampenedSafeReports(reports.toList))
 
 enum LevelsTrend:
   case Unknown, Increasing, Decreasing, Broken
