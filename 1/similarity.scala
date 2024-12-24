@@ -8,8 +8,8 @@ def main2(inputFileName: String): Unit =
   val path: os.Path = os.pwd / os.SubPath(inputFileName)
   val lines: Seq[String] = os.read.lines(path)
 
-  val buff1 = new ListBuffer[Int]()
-  val buff2 = new ListBuffer[Int]()
+  val buff1 = ListBuffer[Int]()
+  val buff2 = ListBuffer[Int]()
 
   for line <- lines do
     val pair = line.split("\\s+", 2)
