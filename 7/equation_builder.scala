@@ -32,7 +32,7 @@ def checkAndSumEquationResults(equations: List[(Long, List[Int])]): Long =
 
 def isEquationPossible(result: Long, numbers: List[Int]): Boolean =
   val operatorPermutations =
-    repetitivePermutations(numbers.length - 1, Operator.values.toList)
+    repetitivePermutations(Operator.values.toList, numbers.length - 1)
   operatorPermutations.exists(calculate(numbers, _) == result)
 
 def calculate(numbers: List[Int], operators: List[Operator]): Long =
@@ -52,20 +52,20 @@ def applyOperator(operator: Operator, a: Long, b: Long): Long =
     case Operator.Add => a + b
     case Operator.Multiply => a * b
 
-def repetitivePermutations[T](length: Int, elements: List[T]): List[List[T]] =
-  prependEach(elements, iterations = length)
+def repetitivePermutations[T](elements: List[T], length: Int): List[List[T]] =
+  _repetitivePermutations(elements, iterations = length)
 
-// Returns new lists, created by prepending every element to the container list,
-// and then iterating upon those new lists.
-def prependEach[T](
-  elements: List[T], containerList: List[T] = List(), iterations: Int = 1
+@tailrec
+def _repetitivePermutations[T](
+  elements: List[T], iterations: Int = 1,
+  resultingLists: List[List[T]] = List(List())
 ): List[List[T]] =
-  val newLists = for
-    elem <- elements
-  yield
-    elem :: containerList
-
-  if iterations > 1 then
-    newLists.flatMap(prependEach(elements, _, iterations - 1))
+  if iterations <= 0 then resultingLists
   else
-    newLists
+    _repetitivePermutations(
+      elements, iterations - 1,
+      for
+        containerList <- resultingLists
+        elem <- elements
+      yield elem :: containerList
+    )
