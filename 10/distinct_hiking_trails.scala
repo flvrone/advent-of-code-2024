@@ -75,8 +75,8 @@ def _findHeightCoordsWithDups(
 
     val nextCoords = Direction.values.map(modifyCoordInDirection(coord, _))
 
-    nextCoords.filter(coord =>
-      map.heightAt(coord) match
+    nextCoords.filter(nextCoord =>
+      map.heightAt(nextCoord) match
         case None => false
         case Some(nextHeight) =>
           (nextHeight - height) == 1 &&

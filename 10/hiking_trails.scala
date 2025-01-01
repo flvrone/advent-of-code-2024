@@ -99,8 +99,8 @@ def _findHeightCoords(
 
       val nextCoords = Direction.values.map(modifyCoordInDirection(coord, _))
 
-      nextCoords.filter(coord =>
-        map.tileAt(coord) match
+      nextCoords.filter(nextCoord =>
+        map.tileAt(nextCoord) match
           case None => false
           case Some(nextTile) =>
             !nextTile.visited && nextTile.height <= searchHeight &&
