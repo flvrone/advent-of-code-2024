@@ -3,7 +3,6 @@
 
 package advent24.discountedfence
 
-import scala.collection.mutable.ArrayBuffer
 import scala.annotation.tailrec
 
 @main
