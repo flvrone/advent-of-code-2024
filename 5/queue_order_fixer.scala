@@ -20,7 +20,7 @@ def main2(inputFileName: String): Unit =
     queues.filter(isQueueIncorrect(_, rulesMap))
       .map(_.sortWith(isOrderCorrectPredicate))
       .map(middleElement(_))
-      .reduce(_ + _)
+      .sum
   )
 
 def buildRulesMap(rules: Seq[String]): Map[Int, Set[Int]] =

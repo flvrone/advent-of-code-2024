@@ -15,7 +15,7 @@ def main1(inputFileName: String): Unit =
   println(
     queues.filter(isQueueCorrect(_, rulesMap))
       .map(middleElement(_))
-      .reduce(_ + _)
+      .sum
   )
 
 def buildRulesMap(rules: Seq[String]): Map[Int, Set[Int]] =

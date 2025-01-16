@@ -13,7 +13,7 @@ def main2(inputFileName: String): Unit =
   val nums = lines.apply(0).split("\\s+").map(_.toLong).toVector
 
   val numCounts = compressAndBlink(nums, 75)
-  println(numCounts.values.reduce(_ + _))
+  println(numCounts.values.sum)
 
 def compressAndBlink(nums: Vector[Long], iterations: Int = 1): Map[Long, Long] =
   val numCounts =

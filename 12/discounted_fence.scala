@@ -129,8 +129,8 @@ def horizontalSidesCount(
         .groupMap(_.row)(_.col)
         .values
         .map(separateProgressionsCount(_))
-        .reduce(_ + _)
-  ).reduce(_ + _)
+        .sum
+  ).sum
 
 def verticalSidesCount(
   map: Char2DMatrix, plot: List[Coord], identifier: Char
@@ -142,8 +142,8 @@ def verticalSidesCount(
         .groupMap(_.col)(_.row)
         .values
         .map(separateProgressionsCount(_))
-        .reduce(_ + _)
-  ).reduce(_ + _)
+        .sum
+  ).sum
 
 def coordBordersInDirection(
   map: Char2DMatrix, coord: Coord, identifier: Char, dir: Direction
