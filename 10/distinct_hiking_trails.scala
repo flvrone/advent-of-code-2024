@@ -53,7 +53,7 @@ def trailheadsTotalScore(map: Height2DMap): Int =
   yield
     findHeightCoords(map, Coord(row, col)).length
 
-  scores.reduceRight(_ + _)
+  scores.sum
 
 def findHeightCoords(
   map: Height2DMap, startCoord: Coord, searchHeight: Int = 9

@@ -74,7 +74,7 @@ def trailheadsTotalScore(map: Height2DMap): Int =
   yield
     findHeightCoords(Visitable2DMap(map), Coord(row, col)).length
 
-  scores.reduceRight(_ + _)
+  scores.sum
 
 def findHeightCoords(
   map: Visitable2DMap, startCoord: Coord, searchHeight: Int = 9

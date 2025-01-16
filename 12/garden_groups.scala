@@ -12,7 +12,7 @@ def main2(inputFileName: String): Unit =
 
   val map = Char2DMatrix(lines.toVector)
 
-  println(formPlots(map).map(plotFencePrice(map, _)).reduceRight(_ + _))
+  println(formPlots(map).map(plotFencePrice(map, _)).sum)
 
 case class Coord(row: Int, col: Int)
 
@@ -122,4 +122,4 @@ def plotPerimeter(map: Char2DMatrix, plot: List[Coord]): Int =
         case Some(outerIdentifier) => outerIdentifier != identifier
         case None => true
     )
-  ).reduceRight(_ + _)
+  ).sum

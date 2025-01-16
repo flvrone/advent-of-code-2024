@@ -22,4 +22,4 @@ def totalDistance(l1: List[Int], l2: List[Int]): Int =
   val s1 = l1.sorted
   val s2 = l2.sorted
 
-  s1.zip(s2).map((a, b) => (a - b).abs).reduceRight(_ + _)
+  s1.zip(s2).map((a, b) => (a - b).abs).sum
