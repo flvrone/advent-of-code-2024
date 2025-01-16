@@ -13,7 +13,9 @@ def main1(inputFileName: String): Unit =
   traverseMapFromPosition(map, position)
 
   val visitedCount =
-    map.rows.map(_.count(_ == MapTile.VisitedPath)).reduce(_ + _)
+    map.rows
+    .map(row => row.count(_ == MapTile.VisitedPath))
+    .sum
 
   println(visitedCount)
 
@@ -27,7 +29,7 @@ case class Position(coord: Coord, dir: Direction)
 enum MapTile:
   case Obstacle, Path, VisitedPath
 
-case class Visitable2DMap(rows: Vector[Array[MapTile]]):
+class Visitable2DMap(val rows: Vector[Array[MapTile]]):
   def rowAt(idx: Int): Option[Array[MapTile]] =
     if idx >= 0 && idx < rows.length then
       Some(rows.apply(idx))

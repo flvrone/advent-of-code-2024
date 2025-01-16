@@ -37,7 +37,7 @@ case class Char2DMatrix(lines: Vector[String]):
 
 case class MapTile(identifier: Char, visited: Boolean = false)
 
-case class Visitable2DMap(map: Char2DMatrix):
+class Visitable2DMap(map: Char2DMatrix):
   val visitableRows = map.lines.map(line => line.map(MapTile(_)).toArray)
 
   def tileAt(row: Int, col: Int): Option[MapTile] =

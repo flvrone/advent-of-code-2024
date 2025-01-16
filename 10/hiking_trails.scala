@@ -33,7 +33,7 @@ case class Height2DMap(rows: Vector[Vector[Int]]):
 
 case class MapTile(height: Int, visited: Boolean = false)
 
-case class Visitable2DMap(heightMap: Height2DMap):
+class Visitable2DMap(heightMap: Height2DMap):
   val visitableRows = heightMap.rows.map(row => row.map(MapTile(_)).toArray)
 
   def tileAt(row: Int, col: Int): Option[MapTile] =

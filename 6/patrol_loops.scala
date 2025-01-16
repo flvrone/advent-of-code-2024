@@ -45,7 +45,7 @@ case class Tile2DMap(rows: Vector[Vector[MapTile]]):
   def tileAt(coord: Coord): Option[MapTile] =
     tileAt(coord.row, coord.col)
 
-case class Visitable2DMap(tileMap: Tile2DMap):
+class Visitable2DMap(tileMap: Tile2DMap):
   val visitableRows = tileMap.rows.map(_.toArray)
 
   def tileAt(row: Int, col: Int): Option[MapTile] =
