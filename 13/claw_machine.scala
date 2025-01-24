@@ -70,8 +70,8 @@ class ABSolutionMatrix(maxA: Int, maxB: Int):
     println(
       matrix.map(subArr =>
         subArr.map(_ match
-          case Solution.Unexplored => "_"
-          case Solution.NotEnough => "."
+          case Solution.Unexplored => "."
+          case Solution.NotEnough => "\\"
           case Solution.TooMuch => "/"
           case Solution.Goal => "O"
         ).mkString
