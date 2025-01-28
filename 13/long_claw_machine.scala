@@ -4,7 +4,6 @@
 package advent24.long_claw_machine
 
 import scala.collection.mutable.ListBuffer
-import scala.annotation.tailrec
 
 @main
 def main2(inputFileName: String): Unit =
@@ -33,13 +32,14 @@ case class ClawMachine(
 case class ButtonPresses(aPresses: Long, bPresses: Long, spentTokens: Long)
 
 object ButtonPresses:
-  def apply(machine: ClawMachine, aPresses: Long, bPresses: Long): ButtonPresses =
+  def apply(
+      machine: ClawMachine, aPresses: Long, bPresses: Long
+  ): ButtonPresses =
     val aTokenCost = machine.buttonA.tokenPrice * aPresses
     val bTokenCost = machine.buttonB.tokenPrice * bPresses
     ButtonPresses(aPresses, bPresses, aTokenCost + bTokenCost)
 
-val ClawMachinePrizeModifier = 0
-// val ClawMachinePrizeModifier = 10_000_000_000_000L
+val ClawMachinePrizeModifier = 10_000_000_000_000L
 
 def buildClawMachines(lines: Seq[String]): List[ClawMachine] =
   val buff = ListBuffer[ClawMachine]()
@@ -61,40 +61,83 @@ def buildClawMachines(lines: Seq[String]): List[ClawMachine] =
 
   buff.toList
 
-def tryWinning(machine: ClawMachine): Option[ButtonPresses] =
-  val aMod = machine.buttonA.modifier
-  val maxAPresses = maxButtonPresses(aMod, machine.prizeAt)
-  findSolution(machine, maxAPresses)
+// An equation system like this:
+//
+//  | a1_1 * x + a1_2 * y = b1
+// <
+//  | a2_1 * x + a2_2 * y = b2
+//
+// Or 2 matrices, like this:
+//
+// | a1_1  a1_2 | and | b1 |
+// | a2_1  a2_2 |     | b2 |
+case class EquationSystem2x2(
+  a1_1: Double, a1_2: Double,
+  a2_1: Double, a2_2: Double,
+  b1: Double, b2: Double
+):
+  val delta = a1_1 * a2_2 - a1_2 * a2_1
 
-// Only works with positive, non-zero coordinates.
-def maxButtonPresses(btnMod: Coord, prizeAt: Coord): Long =
-  if btnMod.x > btnMod.y then (prizeAt.x / btnMod.x)
-  else (prizeAt.y / btnMod.y)
+  def isUnsolvable = delta == 0
+  def isSolvable = !isUnsolvable
 
-@tailrec
-def findSolution(
-  machine: ClawMachine, aPresses: Long,
-  currentSolution: Option[ButtonPresses] = None
-): Option[ButtonPresses] =
-  if aPresses < 0 then currentSolution
-  else
-    val goal = machine.prizeAt
-    val onlyACoord = multiplyCoord(machine.buttonA.modifier, aPresses)
-    val remainingDistance = Coord(goal.x - onlyACoord.x, goal.y - onlyACoord.y)
-    val bPresses =
-      maxButtonPresses(machine.buttonB.modifier, remainingDistance)
-    val onlyBCoord = multiplyCoord(machine.buttonB.modifier, bPresses)
-
-    val newSolution = ButtonPresses(machine, aPresses, bPresses)
-
-    if  currentSolution.isDefined &&
-        currentSolution.get.spentTokens < newSolution.spentTokens
-    then
-      currentSolution
-    else if onlyBCoord == remainingDistance then
-      findSolution(machine, aPresses - 1, Some(newSolution))
+  val deltaX: Option[Double] =
+    if isUnsolvable then None
     else
-      findSolution(machine, aPresses - 1, currentSolution)
+      Some(b1 * a2_2 - a1_2 * b2)
+
+  val x = deltaX.map(_ / delta)
+
+  val deltaY: Option[Double] =
+    if isUnsolvable then None
+    else
+      Some(a1_1 * b2 - b1 * a2_1)
+
+  val y = deltaY.map(_ / delta)
+
+object EquationSystem2x2:
+  // Button A: X+94, Y+34
+  // Button B: X+22, Y+67
+  // Prize: X=8400, Y=5400
+  //
+  //  | 94a + 22b = 8400
+  // <
+  //  | 34a + 67b = 5400
+  def apply(machine: ClawMachine): EquationSystem2x2 =
+    val aMod = machine.buttonA.modifier
+    val bMod = machine.buttonB.modifier
+    val prizeAt = machine.prizeAt
+    EquationSystem2x2(
+      aMod.x.toDouble, bMod.x.toDouble,
+      aMod.y.toDouble, bMod.y.toDouble,
+      prizeAt.x.toDouble, prizeAt.y.toDouble
+    )
+
+def tryWinning(machine: ClawMachine): Option[ButtonPresses] =
+  val eqSys = EquationSystem2x2(machine)
+  if eqSys.isUnsolvable then None
+  else
+    val aPresses = eqSys.x.get.round
+    val bPresses = eqSys.y.get.round
+
+    if aPresses < 0 || bPresses < 0 then None
+    else
+      val coord = buttonPressesToCoord(machine, aPresses, bPresses)
+      if coord == machine.prizeAt then
+        Some(ButtonPresses(machine, aPresses, bPresses))
+      else
+        None
+
+def buttonPressesToCoord(
+  machine: ClawMachine, aPresses: Long, bPresses: Long
+): Coord =
+  addCoords(
+    multiplyCoord(machine.buttonA.modifier, aPresses),
+    multiplyCoord(machine.buttonB.modifier, bPresses),
+  )
+
+def addCoords(c1: Coord, c2: Coord): Coord =
+  Coord(c1.x + c2.x, c1.y + c2.y)
 
 def multiplyCoord(coord: Coord, times: Long): Coord =
   Coord(coord.x * times, coord.y * times)
