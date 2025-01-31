@@ -7,7 +7,7 @@ import scala.collection.mutable.ListBuffer
 import scala.annotation.tailrec
 
 @main
-def main1(inputFileName: String): Unit =
+def main2(inputFileName: String): Unit =
   val path: os.Path = os.pwd / os.SubPath(inputFileName)
   val lines: Seq[String] = os.read.lines(path)
 
